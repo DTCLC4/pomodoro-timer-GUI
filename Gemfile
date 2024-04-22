@@ -2,9 +2,15 @@ source "https://rubygems.org"
 
 ruby "3.0.2"
 
-gem 'bcrypt', '~> 3.1', '>= 3.1.12'
+gem "active_model_serializers", "~> 0.10.14"
 
-gem 'faker', '~> 3.2'
+gem "rack-cors", "~> 2.0", ">= 2.0.2"
+
+gem "jwt", "~> 2.8", ">= 2.8.1"
+
+gem "bcrypt", "~> 3.1", ">= 3.1.12"
+
+gem "faker", "~> 3.2"
 
 gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
 
