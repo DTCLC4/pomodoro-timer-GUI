@@ -8,7 +8,25 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# seend users
-
-
 # seend tasks
+# Tạo các task tương ứng với user_id = 1
+5.times do
+  Task.create(
+    user_id: 1,
+    title: Faker::Lorem.sentence,
+    description: Faker::Lorem.paragraph,
+    due_date: Faker::Date.forward(days: 30),
+    completed: [true, false].sample
+  )
+end
+
+# Tạo các task tương ứng với user_id = 2
+5.times do
+  Task.create(
+    user_id: 2,
+    title: Faker::Lorem.sentence,
+    description: Faker::Lorem.paragraph,
+    due_date: Faker::Date.forward(days: 30),
+    completed: [true, false].sample
+  )
+end
