@@ -1,0 +1,2 @@
+b1: install gem
+b2: run rails g devise_token_auth:install User auth
