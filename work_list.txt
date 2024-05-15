@@ -1,3 +1,21 @@
 b1: install gem
 b2: run rails g devise_token_auth:install User auth
 b3: run rails s
+
+
+        #   tasks: @tasks.map do |task|
+        #     {
+        #       id: task.id,
+        #       title: task.title,
+        #       description: task.description,
+        #       due_date: task.due_date,
+        #       completed: task.completed,
+        #       user: {
+        #         id: @user.id,
+        #         name: @user.name,
+        #         nickname: @user.nickname,
+        #         image: @user.image,
+        #         email: @user.email
+        #       }
+        #     }
+        #   end
