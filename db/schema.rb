@@ -10,16 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_13_020404) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_15_101458) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "sub_tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.date "due_date"
+    t.integer "completed", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "task_id"
+    t.index ["task_id"], name: "index_sub_tasks_on_task_id"
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.date "due_date"
-    t.boolean "completed"
+    t.integer "completed", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
@@ -51,5 +62,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_13_020404) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "sub_tasks", "tasks"
   add_foreign_key "tasks", "users"
 end

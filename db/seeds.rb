@@ -16,7 +16,7 @@
     title: Faker::Lorem.sentence,
     description: Faker::Lorem.paragraph,
     due_date: Faker::Date.forward(days: 30),
-    completed: [true, false].sample
+    completed: rand(3)
   )
 end
 
@@ -27,6 +27,6 @@ end
     title: Faker::Lorem.sentence,
     description: Faker::Lorem.paragraph,
     due_date: Faker::Date.forward(days: 30),
-    completed: [true, false].sample
+    completed: rand(3)
   )
 end
