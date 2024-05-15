@@ -30,3 +30,15 @@ end
     completed: rand(3)
   )
 end
+
+# Tạo các sub task tương ứng với task_id = rand()
+10.times do
+  task_id = rand(1..10)
+  SubTask.create(
+    title: Faker::Lorem.sentence,
+    description: Faker::Lorem.paragraph,
+    due_date: Faker::Date.forward(days: 30),
+    completed: rand(3),
+    task_id: task_id
+  )
+end
