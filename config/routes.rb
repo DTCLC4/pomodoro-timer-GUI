@@ -14,10 +14,16 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'home/index', to: 'home#index'
+
       resources :task, only: [:index], path: 'tasks'
-      resources :task, except: [:index], path: 'task'
+      resources :task, only: [:show], path: 'task' do
+        resources :sub_task, only: [:show], path: 'subtask'
+      end
+
       get '/auth/google_oauth2/callback', to: 'sessions#google_oauth2_callback'
+
       mount_devise_token_auth_for 'User', at: 'auth'
     end
   end
+
 end

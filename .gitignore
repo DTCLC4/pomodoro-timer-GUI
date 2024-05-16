@@ -37,8 +37,9 @@ config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
 
-# /test/*
-
+# Ignore file CI-CD
 .framgia-ci-reports/
 .framgia-ci-result.temp.yml
+
+# Ignore file debug
 .byebug_history
