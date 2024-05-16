@@ -1,6 +1,7 @@
 class Api::V1::TaskController < ApplicationController
   before_action :authenticate_api_v1_user!
   before_action :set_user
+  before_action :set_task
 
   # GET /tasks/
   def index
@@ -25,14 +26,12 @@ class Api::V1::TaskController < ApplicationController
 
   # GET /task/:id
   def show
-    @task = @user.tasks.find(params[:id])
-
     render json: {
       status: "success",
       code: 200,
       message: "Task retrieved successfully",
       data: {
-        task: ActiveModelSerializers::SerializableResource.new(@task, include: ['user'])
+        task: ActiveModelSerializers::SerializableResource.new(@task, include: ['user', 'sub_tasks'])
       }
     }
   rescue ActiveRecord::RecordNotFound
@@ -54,5 +53,9 @@ class Api::V1::TaskController < ApplicationController
 
   def set_user
     @user = current_api_v1_user
+  end
+
+  def set_task
+    @task = @user.tasks.find(params[:id])
   end
 end
