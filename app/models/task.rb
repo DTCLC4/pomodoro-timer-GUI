@@ -3,4 +3,8 @@ class Task < ApplicationRecord
 
   belongs_to :user
   has_many :sub_tasks, dependent: :destroy
+
+  validates :title, presence: true, length: { minimum: 5 }
+  validates :description, presence: true, length: { minimum: 5 }
+
 end
