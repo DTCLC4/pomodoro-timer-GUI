@@ -1,7 +1,7 @@
 class Api::V1::TaskController < ApplicationController
   before_action :authenticate_api_v1_user!
   before_action :set_user
-  before_action :set_task
+  before_action :set_task, only: [:show]
 
   # GET /tasks/
   def index
