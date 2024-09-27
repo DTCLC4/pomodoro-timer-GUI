@@ -1,0 +1,74 @@
+require 'active_record'
+require 'rake'
+require 'yaml'
+require 'fileutils'
+
+# Set up the connection to the database
+db_config = YAML.load_file('config/database.yml', aliases: true)['development']
+
+# Establish the ActiveRecord connection using the database configuration
+ActiveRecord::Base.establish_connection(db_config)
+
+namespace :db do
+  # Task to create a new migration file
+  desc 'Create a new migration file'
+  task :create_migration, [:name] do |_t, args|
+    migration_name = args[:name] # Get the migration name from the arguments
+    timestamp = Time.now.utc.strftime('%Y%m%d%H%M%S') # Generate a timestamp for the migration file name
+    migration_filename = "db/migrate/#{timestamp}_#{migration_name}.rb" # Define the migration file name
+
+    # Check if a name was provided for the migration
+    if migration_name.nil? || migration_name.strip.empty?
+      puts 'You must provide a NAME for the migration'
+      exit(1)
+    end
+
+    # Create the 'migrate' directory if it doesn't exist
+    FileUtils.mkdir_p('db/migrate') unless Dir.exist?('db/migrate')
+
+    # Create the migration file with a sample content
+    File.open(migration_filename, 'w') do |file|
+      file.write <<~MIGRATION
+        class #{migration_name.split('_').collect(&:capitalize).join} < ActiveRecord::Migration[6.0]
+          def change
+            # Add your migration code here
+          end
+        end
+      MIGRATION
+    end
+
+    puts "Migration created: #{migration_filename}" # Inform the user that the migration has been created
+  end
+
+  # Task to execute migrations
+  desc 'Migrate the database'
+  task :migrate do
+    ActiveRecord::Base.establish_connection(db_config) # Establish connection to the database
+    ActiveRecord::MigrationContext.new('db/migrate', ActiveRecord::SchemaMigration).migrate # Run migrations
+    puts 'Migrations completed.' # Inform the user that migrations are complete
+  end
+
+  # Task to rollback the last migration
+  desc 'Rollback the last migration'
+  task :rollback do
+    ActiveRecord::Base.establish_connection(db_config) # Establish connection to the database
+    ActiveRecord::MigrationContext.new('db/migrate', ActiveRecord::SchemaMigration).rollback(1) # Rollback the last migration
+    puts 'Rolled back the last migration.' # Inform the user that the last migration has been rolled back
+  end
+
+  # Task to create the database
+  desc 'Create the database'
+  task :create do
+    ActiveRecord::Base.establish_connection(db_config.merge('database' => 'postgres')) # Establish connection to Postgres to create the database
+    ActiveRecord::Base.connection.create_database(db_config['database']) # Create the database
+    puts "Database '#{db_config['database']}' created." # Inform the user that the database has been created
+  end
+
+  # Task to drop the database
+  desc 'Drop the database'
+  task :drop do
+    ActiveRecord::Base.establish_connection(db_config.merge('database' => 'postgres')) # Establish connection to Postgres to drop the database
+    ActiveRecord::Base.connection.drop_database(db_config['database']) # Drop the database
+    puts "Database '#{db_config['database']}' dropped." # Inform the user that the database has been dropped
+  end
+end
