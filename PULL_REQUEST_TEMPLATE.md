@@ -8,7 +8,7 @@
 
 ## WHAT this PR does?
 
-- ex: Change number items `completed/total` in admin page.
+- ex: Change number items `completed/total` in user page.
 
 ## Notes Impacted Areas
 
