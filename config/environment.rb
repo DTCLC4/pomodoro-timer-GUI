@@ -1,5 +1,14 @@
-# Load the Rails application.
-require_relative "application"
+require 'bundler/setup'
+require 'yaml'
+require 'active_record'
+Bundler.require
 
-# Initialize the Rails application.
-Rails.application.initialize!
+db_config = YAML.load_file('config/database.yml', aliases: true)
+
+env = ENV['RACK_ENV'] || 'development'
+
+ActiveRecord::Base.establish_connection(
+  db_config[env]
+)
+
+require_all 'app'
