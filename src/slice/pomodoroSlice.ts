@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PomodoroState {
-  sessionType: 'pomodoro' | 'shortBreak' | 'longBreak';
+  sessionType: string;
   timeLeft: number;
   isRunning: boolean;
   completedPomodoros: number;
@@ -12,18 +12,30 @@ interface PomodoroState {
 
 const initialState: PomodoroState = {
   sessionType: 'pomodoro',
-  timeLeft: 1500, // 25 phút
+  timeLeft: 5, // 25 phút
   isRunning: false,
   completedPomodoros: 0,
-  shortBreakDuration: 300, // 5 phút
-  longBreakDuration: 900, // 15 phút
-  pomodoroDuration: 1500, // 25 phút
+  shortBreakDuration: 3, // 5 phút
+  longBreakDuration: 3, // 15 phút
+  pomodoroDuration: 5, // 25 phút
 };
 
 const pomodoroSlice = createSlice({
   name: 'pomodoro',
   initialState,
   reducers: {
+    setSessionType(state, action: PayloadAction<string>) {
+      state.sessionType = action.payload;
+      // Cập nhật timeLeft dựa trên loại phiên được chọn
+      if (action.payload === 'pomodoro') {
+        state.timeLeft = state.pomodoroDuration;
+      } else if (action.payload === 'short') {
+        state.timeLeft = state.shortBreakDuration;
+      } else if (action.payload === 'long') {
+        state.timeLeft = state.longBreakDuration;
+      }
+      state.isRunning = false; // Đặt trạng thái là không chạy khi thay đổi phiên
+    },
     startSession(state) {
       state.isRunning = true;
     },
@@ -35,8 +47,8 @@ const pomodoroSlice = createSlice({
       state.timeLeft = state.sessionType === 'pomodoro'
         ? state.pomodoroDuration
         : state.sessionType === 'shortBreak'
-        ? state.shortBreakDuration
-        : state.longBreakDuration;
+          ? state.shortBreakDuration
+          : state.longBreakDuration;
     },
     tick(state) {
       if (state.isRunning && state.timeLeft > 0) {
@@ -53,14 +65,15 @@ const pomodoroSlice = createSlice({
       state.timeLeft = state.sessionType === 'pomodoro'
         ? state.pomodoroDuration
         : state.sessionType === 'shortBreak'
-        ? state.shortBreakDuration
-        : state.longBreakDuration;
+          ? state.shortBreakDuration
+          : state.longBreakDuration;
       state.isRunning = false;
     },
   },
 });
 
 export const {
+  setSessionType,
   startSession,
   pauseSession,
   resetSession,

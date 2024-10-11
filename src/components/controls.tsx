@@ -1,68 +1,51 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { setSessionType } from '../slice/pomodoroSlice';
 
 const Controls: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<'pomodoro' | 'short' | 'long'>('pomodoro');
+  const dispatch = useDispatch();
 
+  // Lấy sessionType từ Redux store
+  const { sessionType } = useSelector((state: RootState) => state.pomodoro);
 
+  // Hàm xử lý thay đổi radio button
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value as 'pomodoro' | 'short' | 'long');
+    dispatch(setSessionType(event.target.value));
   };
-
-  // Hàm sử dụng switch case để xử lý lựa chọn
-  const handleOptionChange = (option: string) => {
-    switch (option) {
-      case 'pomodoro':
-        console.log('Pomodoro selected');
-        break;
-      case 'short':
-        console.log('Short break selected');
-        break;
-      case 'long':
-        console.log('Long break selected');
-        break;
-      default:
-        break;
-    }
-  }
   return (
     <form className='controls'>
-      <input type='radio'
+      <input
+        type='radio'
         id='pomodoro'
         name='mode'
         value='pomodoro'
-        checked={selectedOption === 'pomodoro'}
-        onChange={(e) => {
-          handleChange(e);
-          handleOptionChange(e.target.value);
-        }}
+        checked={sessionType === 'pomodoro'}
+        onChange={handleChange}
       />
       <label htmlFor='pomodoro' className='controls_button'>Pomodoro</label>
 
-      <input type='radio'
+      <input
+        type='radio'
         id='short'
         name='mode'
         value='short'
-        checked={selectedOption === 'short'}
-        onChange={(e) => {
-          handleChange(e);
-          handleOptionChange(e.target.value);
-        }}
+        checked={sessionType === 'short'}
+        onChange={handleChange}
       />
-      <label htmlFor='short' className='controls_button'>Short break</label>
+      <label htmlFor='short' className='controls_button'>Short Break</label>
 
-      <input type='radio'
+      <input
+        type='radio'
         id='long'
         name='mode'
         value='long'
-        checked={selectedOption === 'long'}
-        onChange={(e) => {
-          handleChange(e);
-          handleOptionChange(e.target.value);
-        }}
+        checked={sessionType === 'long'}
+        onChange={handleChange}
       />
-      <label htmlFor='long' className='controls_button'>Long break</label>
+      <label htmlFor='long' className='controls_button'>Long Break</label>
     </form>
-  )
+  );
 }
 
 export default Controls
