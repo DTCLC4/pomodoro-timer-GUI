@@ -7,7 +7,7 @@ const Timer: React.FC = () => {
     <div className='timer'>
       <div className='timer_display'>
         <CircularProgressbarWithChildren
-        value={70}
+        value={100}
         strokeWidth={4}
         styles={buildStyles({
           // How long animation takes to go from one percentage to another, in seconds
@@ -18,6 +18,7 @@ const Timer: React.FC = () => {
           trailColor: 'none',
         })}>
 
+           <button className="display_start-pause">Text</button>
         </CircularProgressbarWithChildren>
       </div>
     </div>
