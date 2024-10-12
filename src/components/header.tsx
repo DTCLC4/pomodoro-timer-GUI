@@ -1,8 +1,8 @@
 import React from "react"
 
-const Header: React.FC = () => {
+const Header: React.FC<{ title: string }> = ({ title }) => {
   return (
-    <h1>Pomodoro App</h1>
+    <h1>{title}</h1>
   )
 }
 
