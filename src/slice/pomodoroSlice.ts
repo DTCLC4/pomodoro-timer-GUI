@@ -1,84 +1,53 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PomodoroState } from '../type/pomodoroState';
 
-interface PomodoroState {
-  sessionType: string;
-  timeLeft: number;
-  isRunning: boolean;
-  completedPomodoros: number;
-  shortBreakDuration: number;
-  longBreakDuration: number;
-  pomodoroDuration: number;
-}
-
+// The initial state for the Pomodoro timer, including the current session type (Pomodoro, short break, long break),
+// remaining time, running state, number of completed Pomodoros, and durations for each session type.
 const initialState: PomodoroState = {
   sessionType: 'pomodoro',
-  timeLeft: 5, // 25 phút
+  timeLeft: 60,
   isRunning: false,
   completedPomodoros: 0,
-  shortBreakDuration: 3, // 5 phút
-  longBreakDuration: 3, // 15 phút
-  pomodoroDuration: 5, // 25 phút
+  shortBreakDuration: 30,
+  longBreakDuration: 30,
+  pomodoroDuration: 60,
 };
 
+// The slice that handles the Pomodoro state and actions related to the Pomodoro timer.
 const pomodoroSlice = createSlice({
+  // The name of the slice.i
   name: 'pomodoro',
+  // The initial state defined above.
   initialState,
   reducers: {
+    // Reducer to change the session type (Pomodoro, short break, long break).
     setSessionType(state, action: PayloadAction<string>) {
+      // Update the session type to the new one from the payload.
       state.sessionType = action.payload;
-      // Cập nhật timeLeft dựa trên loại phiên được chọn
+
+      // Update the timeLeft depending on the session type selected.
       if (action.payload === 'pomodoro') {
+        // Set time for Pomodoro session.
         state.timeLeft = state.pomodoroDuration;
       } else if (action.payload === 'short') {
+        // Set time for short break.
         state.timeLeft = state.shortBreakDuration;
       } else if (action.payload === 'long') {
+        // Set time for long break.
         state.timeLeft = state.longBreakDuration;
       }
-      state.isRunning = false; // Đặt trạng thái là không chạy khi thay đổi phiên
-    },
-    startSession(state) {
-      state.isRunning = true;
-    },
-    pauseSession(state) {
-      state.isRunning = false;
-    },
-    resetSession(state) {
-      state.isRunning = false;
-      state.timeLeft = state.sessionType === 'pomodoro'
-        ? state.pomodoroDuration
-        : state.sessionType === 'shortBreak'
-          ? state.shortBreakDuration
-          : state.longBreakDuration;
-    },
-    tick(state) {
-      if (state.isRunning && state.timeLeft > 0) {
-        state.timeLeft -= 1;
-      }
-    },
-    switchToNextSession(state) {
-      if (state.sessionType === 'pomodoro') {
-        state.completedPomodoros += 1;
-        state.sessionType = state.completedPomodoros % 4 === 0 ? 'longBreak' : 'shortBreak';
-      } else {
-        state.sessionType = 'pomodoro';
-      }
-      state.timeLeft = state.sessionType === 'pomodoro'
-        ? state.pomodoroDuration
-        : state.sessionType === 'shortBreak'
-          ? state.shortBreakDuration
-          : state.longBreakDuration;
+      // Reset the running state to false when session changes.
       state.isRunning = false;
     },
   },
 });
 
+// Export the actions to be used in components.
 export const {
+  // Action to set the session type.
   setSessionType,
-  startSession,
-  pauseSession,
-  resetSession,
-  tick,
-  switchToNextSession,
-} = pomodoroSlice.actions;
+}
+  = pomodoroSlice.actions;
 
+// Export the reducer to be used in the Redux store.
 export default pomodoroSlice.reducer;
