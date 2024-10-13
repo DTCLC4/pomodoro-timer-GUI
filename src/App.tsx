@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-
 import Controls from './components/controls'
 import Header from './components/header'
 import Timer from './components/timer'
-
 import './App.css'
 
 // Main App component that holds the state and integrates other components
 const App: React.FC = () => {
-
   // State to manage the text displayed on the start/pause button
   const [buttonText, setButtonText] = useState('START')
 

@@ -70,8 +70,8 @@ export const {
   startSession,
   pauseSession,
   tick
-}
-  = pomodoroSlice.actions;
+} = pomodoroSlice.actions
+
 
 // Export the reducer to be used in the Redux store.
 export default pomodoroSlice.reducer
