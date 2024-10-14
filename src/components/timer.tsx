@@ -22,14 +22,14 @@ const Timer: React.FC<TextProps> = ({ buttonText, setButtonText }) => {
       dispatch(pauseSession())
       setButtonText('RESUME')
     }
-  };
+  }
 
   // Format time from seconds to MM:SS format
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
     return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`
-  };
+  }
 
   // Adjust text size based on whether the timer has reached 0
   const textSize = timeLeft === 0 ? '12px' : '28px'
@@ -82,8 +82,10 @@ const Timer: React.FC<TextProps> = ({ buttonText, setButtonText }) => {
       <div className='timer_display'>
         {/* Circular progress bar that visually represents the remaining time */}
         <CircularProgressbarWithChildren
-          value={percentage} // Set progress based on percentage of time left
-          text={timeText}    // Show formatted time or message
+          // Set progress based on percentage of time left
+          value={percentage}
+          // Show formatted time or message
+          text={timeText}
           strokeWidth={4}
           styles={buildStyles({
             pathTransitionDuration: 0.5,
@@ -96,7 +98,8 @@ const Timer: React.FC<TextProps> = ({ buttonText, setButtonText }) => {
           {/* Show start/pause button only if there's time left */}
           {timeLeft > 0 && (
             <button className="display_start-pause" onClick={handleClick}>
-              {buttonText} {/* Display 'START', 'PAUSE', or 'RESUME' */}
+              {/* Display 'START', 'PAUSE', or 'RESUME' */}
+              {buttonText}
             </button>
           )}
         </CircularProgressbarWithChildren>

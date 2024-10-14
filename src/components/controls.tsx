@@ -13,13 +13,16 @@ const Controls: React.FC<TextProps> = ({ setButtonText }) => {
 
   // Handle the mode change when user selects a session type, and dispatch the new session type to the store
   const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSessionType(event.target.value)) // Update the sessionType in the Redux store
+    // Update the sessionType in the Redux store
+    dispatch(setSessionType(event.target.value))
   };
 
   // Set the button text to 'START' whenever the session type changes
   useEffect(() => {
     setButtonText('START');
-  }, [sessionType, setButtonText]) // Dependency array includes sessionType and setButtonText
+  },
+  // Dependency array includes sessionType and setButtonText
+   [sessionType, setButtonText])
 
   return (
     <form className='controls'>
@@ -29,8 +32,10 @@ const Controls: React.FC<TextProps> = ({ setButtonText }) => {
         id='pomodoro'
         name='sessionType'
         value='pomodoro'
-        checked={sessionType === 'pomodoro'} // Check if the current sessionType is 'pomodoro'
-        onChange={handleModeChange} // Call handleModeChange on selection
+        // Check if the current sessionType is 'pomodoro'
+        checked={sessionType === 'pomodoro'}
+        // Call handleModeChange on selection
+        onChange={handleModeChange}
       />
       <label htmlFor='pomodoro' className='controls_button'>Pomodoro</label>
 
@@ -40,8 +45,8 @@ const Controls: React.FC<TextProps> = ({ setButtonText }) => {
         id='short'
         name='sessionType'
         value='short'
-        checked={sessionType === 'short'} // Check if the current sessionType is 'short'
-        onChange={handleModeChange} // Call handleModeChange on selection
+        checked={sessionType === 'short'}
+        onChange={handleModeChange}
       />
       <label htmlFor='short' className='controls_button'>Short Break</label>
 
@@ -51,12 +56,12 @@ const Controls: React.FC<TextProps> = ({ setButtonText }) => {
         id='long'
         name='sessionType'
         value='long'
-        checked={sessionType === 'long'} // Check if the current sessionType is 'long'
-        onChange={handleModeChange} // Call handleModeChange on selection
+        checked={sessionType === 'long'}
+        onChange={handleModeChange}
       />
       <label htmlFor='long' className='controls_button'>Long Break</label>
     </form>
-  );
+  )
 }
 
 export default Controls
